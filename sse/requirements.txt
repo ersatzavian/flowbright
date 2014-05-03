@@ -1,0 +1,7 @@
+Padding==0.4
+keen==0.2.3
+pycrypto==2.6.1
+requests==2.2.1
+six==1.6.1
+sseclient==0.0.8
+wsgiref==0.1.2
