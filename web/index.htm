@@ -8,7 +8,7 @@
 
     <title>FlowBright</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">    
   </head>
   <body>
     <nav id='top' class='navbar navbar-static-top navbar-inverse' role='navigation'>
@@ -35,24 +35,27 @@
       <div class='row' style='margin-top: 20px'>
         <div class='col-md-offset-2 col-md-8 well'>
           <!-- these labels show if the water was running in the last 10 seconds and will update live -->
-          <h3><span id="water_running" class="label label-primary" style="display:none">Water Running</span></h3>
-          <h3><span id="water_not_running" class="label label-default" style="display:inline">Water Stopped</span></h3>
+          <h5 align="right">Baseline water usage/month: 5000 Gallons</h3>
+          <h1 align="right"><span id="water_running" class="label label-primary" style="display:none">Water Running</span></h3>
+          <h1  align="right"><span id="water_not_running" class="label label-default" style="display:inline">Water Stopped</span></h3>
+
           <form>
   <select class="target">
     <option value="option1" selected="selected">Minutely</option>
-    <option value="option2">Weekly</option>
+    <option value="option2">daily</option>
   </select>
 </form>
 
           <div id="waterusage" style="min-width: 730px; height: 400px; margin: 0 auto"></div>
+          <div id="waterusage2" style="min-width: 730px; height: 400px; margin: 0 auto"></div>
           <div class="input-group">
-            <input id="text_to_num" type="text" class="form-control" placeholder="+15556667777">
+            <input id="text_to_num" type="text" class="form-control" placeholder="+15556667777" value="+13122080110">
             <span class="input-group-btn">
               <button class="btn btn-default" type="button" onclick="sendTextSummary()">SMS</button>
             </span>
         </div>
 
-   <div style="display:inline-block" id="sum_this_month"></div>
+        <div style="display:inline-block" id="sum_this_month"></div>
         <div style="display:inline-block" id="sum_previous_month"></div>
 
         <div>
@@ -159,15 +162,21 @@
   <script type="text/javascript"> 
     $(function () {
         pullData();
+        $("#waterusage").hide();
+        $("#waterusage2").show();
     });
     $( ".target" ).change(function() {
       var selectedDropdown = $(this).val();
       console.log(selectedDropdown);
       if(selectedDropdown == "option1"){
         pullData();
+        $("#waterusage").hide();
+        $("#waterusage2").show();
       }
       else if(selectedDropdown == "option2"){
         pullWeek();
+        $("#waterusage2").hide();
+        $("#waterusage").show();
       }
 
     });
@@ -266,6 +275,7 @@
     $(document).ready(function() {
       getWaterRunning();
       setInterval(getWaterRunning,1000);
+      setInterval(pullData, 10000);
     });
   </script>
 
@@ -290,7 +300,8 @@
 
       $('#waterusage').highcharts({
         chart: {
-          type: 'column'
+          type: 'column',
+          animation: false
         },
         title: {
           text: 'Water Usage'
@@ -345,9 +356,10 @@
 
       var series = _.chain(alldata.result).pluck("value").pluck("0").pluck("result").value();
 
-      $('#waterusage').highcharts({
+      $('#waterusage2').highcharts({
         chart: {
-          type: 'column'
+          type: 'column',
+          animation: false
         },
         title: {
           text: 'Water Usage'
