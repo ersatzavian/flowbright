@@ -24,7 +24,9 @@ def format_message():
   for usage in usageSum:
     repeat = int(ceil(10 * (float(usage['value']) / totalUsage)))
     start = dateutil.parser.parse(usage['timeframe']['start'])
-    output += 'Usage {} was {} {} \n'.format(start.strftime('%a'), str(usage['value']).ljust(10), 'o' * repeat)
+    usage_value = str(usage['value'])
+    usage_bar = ('o' * repeat).ljust(10)
+    output += '\n{}: {} {}'.format(start.strftime('%A'), usage_bar, usage['value'])
   return output;
 
 def main():
