@@ -511,4 +511,5 @@ firebase <- Firebase(FIREBASENAME, FIREBASESECRET);
 
 device.on("update", function(data) {
     server.log(format("%s at %d: %d mL",data.id, data.time, data.volume));
+    firebase.write("/"+data.id+"/"+data.time, data.volume);
 });
