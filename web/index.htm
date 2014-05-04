@@ -29,12 +29,6 @@
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container -->
     </nav>
-    <form>
-  <select class="target">
-    <option value="option1" selected="selected">Minutely</option>
-    <option value="option2">Weekly</option>
-  </select>
-</form>
 
     
     <div class='container'>
@@ -43,6 +37,13 @@
           <!-- these labels show if the water was running in the last 10 seconds and will update live -->
           <h3><span id="water_running" class="label label-primary" style="display:none">Water Running</span></h3>
           <h3><span id="water_not_running" class="label label-default" style="display:inline">Water Stopped</span></h3>
+          <form>
+  <select class="target">
+    <option value="option1" selected="selected">Minutely</option>
+    <option value="option2">Weekly</option>
+  </select>
+</form>
+
           <div id="waterusage" style="min-width: 730px; height: 400px; margin: 0 auto"></div>
           <div class="input-group">
             <input id="text_to_num" type="text" class="form-control" placeholder="+15556667777">
@@ -265,7 +266,7 @@
     // Run a KeenIO query to get aggregated data
     // This will call drawChart with a callback when the query is complete
     function pullData() {
-        $.getJSON("https://api.keen.io/3.0/projects/50ba759d897a2c45c2000000/queries/sum?api_key=f7a829ecc9e237949b0b97245c828661ff0c9f46eaec35a7dc4cfd3b4ef42804f5fc1859ecad05bd7d72b6c3a2e4047ae39cba86b5d51c770be26b0a406cbb44650d20fd05fb7896293f015cec3af3ca2df8a507927bf4cfed9275eb89e8dee855cf45db75b221074bda2f737d2810f2&event_collection=flow&timeframe=this_60_minutes&target_property=volume&group_by=device&interval=minutely&percentile=50", drawChart);
+        $.getJSON("https://api.keen.io/3.0/projects/50ba759d897a2c45c2000000/queries/sum?api_key=f7a829ecc9e237949b0b97245c828661ff0c9f46eaec35a7dc4cfd3b4ef42804f5fc1859ecad05bd7d72b6c3a2e4047ae39cba86b5d51c770be26b0a406cbb44650d20fd05fb7896293f015cec3af3ca2df8a507927bf4cfed9275eb89e8dee855cf45db75b221074bda2f737d2810f2&event_collection=flow&timeframe=this_15_minutes&target_property=volume&group_by=device&interval=minutely&percentile=50", drawChart);
     }
     function pullWeek() {
         $.getJSON("https://api.keen.io/3.0/projects/50ba759d897a2c45c2000000/queries/sum?api_key=f7a829ecc9e237949b0b97245c828661ff0c9f46eaec35a7dc4cfd3b4ef42804f5fc1859ecad05bd7d72b6c3a2e4047ae39cba86b5d51c770be26b0a406cbb44650d20fd05fb7896293f015cec3af3ca2df8a507927bf4cfed9275eb89e8dee855cf45db75b221074bda2f737d2810f2&event_collection=flow&timeframe=this_14_days&target_property=volume&group_by=device&interval=daily&percentile=50", drawChartWeek);
