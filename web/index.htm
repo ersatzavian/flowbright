@@ -29,6 +29,14 @@
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container -->
     </nav>
+    <form>
+
+  <select class="target">
+    <option value="option1" selected="selected">Weekly</option>
+    <option value="option2">Minutely</option>
+  </select>
+</form>
+
     
     <div class='container'>
       <div class='row' style='margin-top: 20px'>
@@ -36,7 +44,7 @@
           <!-- these labels show if the water was running in the last 10 seconds and will update live -->
           <h3><span id="water_running" class="label label-primary" style="display:none">Water Running</span></h3>
           <h3><span id="water_not_running" class="label label-default" style="display:inline">Water Stopped</span></h3>
-          <div id="waterusage" style="min-width: 750px; height: 400px; margin: 0 auto"></div>
+          <div id="waterusage" style="min-width: 730px; height: 400px; margin: 0 auto"></div>
           <div class="input-group">
             <input id="text_to_num" type="text" class="form-control" placeholder="+15556667777">
             <span class="input-group-btn">
@@ -60,6 +68,7 @@
       
     </div><!-- /.container -->
 
+
   <!-- javascript -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
   <script src='https://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js'></script>
@@ -69,7 +78,7 @@
   <script src="http://code.highcharts.com/highcharts.js"></script>
   
   <!-- Keen "Library" -->
-  <script type="text/javascript">
+  <!-- <script type="text/javascript"> using hichart via keen api instead of keen io
     var Keen=Keen||{configure:function(e){this._cf=e},addEvent:function(e,t,n,i){this._eq=this._eq||[],this._eq.push([e,t,n,i])},setGlobalProperties:function(e){this._gp=e},onChartsReady:function(e){this._ocrq=this._ocrq||[],this._ocrq.push(e)}};(function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://":"http://")+"dc8na2hxrj29i.cloudfront.net/code/keen-2.1.0-min.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
 
     // Configure the Keen object with your Project ID and (optional) access keys.
@@ -79,25 +88,37 @@
         readKey: "f7a829ecc9e237949b0b97245c828661ff0c9f46eaec35a7dc4cfd3b4ef42804f5fc1859ecad05bd7d72b6c3a2e4047ae39cba86b5d51c770be26b0a406cbb44650d20fd05fb7896293f015cec3af3ca2df8a507927bf4cfed9275eb89e8dee855cf45db75b221074bda2f737d2810f2"    // required for doing analysis
     });
   </script>
-
+-->
   <!-- This script handles building weekly summaries with Keen and texting them to users with Twilio -->
   <script type="text/javascript"> 
+    $( ".target" ).change(function() {
+      var selectedDropdown = $(this).val();
+      console.log(selectedDropdown);
+      if(selectedDropdown == "option2"){
+        pullData();
+      }
+      else if(selectedDropdown == "option1"){
+        pullWeek();
+      }
+
+    });
+
 
     var twilioURL = "https://agent.electricimp.com/tlulR8wZXpxy/send_txt"
 
     // This will draw a line chart of usage over the last 7 days, if you don't want to use highcharts
-    Keen.onChartsReady(function() {
-      usageSum = new Keen.Series("flow", {
-        analysisType: "sum",
-        targetProperty: "volume", 
-        timeframe: "previous_7_days",
-        interval: "daily"
-      });
+    // Keen.onChartsReady(function() {
+    //  usageSum = new Keen.Series("flow", {
+    //    analysisType: "sum",
+    //    targetProperty: "volume", 
+    //    timeframe: "previous_7_days",
+    //    interval: "daily"
+    //  });
 
-      usageSum.draw(document.getElementById("waterusage"), {
-        label: "Water Used (mL)"
-      });
-    });
+    //  usageSum.draw(document.getElementById("waterusage"), {
+    //    label: "Water Used (mL)"
+     // });
+    //}); -->
 
     function sendTextSummary() {
       // configure  Keen query to get the usage summary nicely rolled up
@@ -172,6 +193,66 @@
     function pullData() {
         $.getJSON("https://api.keen.io/3.0/projects/50ba759d897a2c45c2000000/queries/sum?api_key=f7a829ecc9e237949b0b97245c828661ff0c9f46eaec35a7dc4cfd3b4ef42804f5fc1859ecad05bd7d72b6c3a2e4047ae39cba86b5d51c770be26b0a406cbb44650d20fd05fb7896293f015cec3af3ca2df8a507927bf4cfed9275eb89e8dee855cf45db75b221074bda2f737d2810f2&event_collection=flow&timeframe=this_60_minutes&target_property=volume&group_by=device&interval=minutely&percentile=50", drawChart);
     }
+    function pullWeek() {
+        $.getJSON("https://api.keen.io/3.0/projects/50ba759d897a2c45c2000000/queries/sum?api_key=f7a829ecc9e237949b0b97245c828661ff0c9f46eaec35a7dc4cfd3b4ef42804f5fc1859ecad05bd7d72b6c3a2e4047ae39cba86b5d51c770be26b0a406cbb44650d20fd05fb7896293f015cec3af3ca2df8a507927bf4cfed9275eb89e8dee855cf45db75b221074bda2f737d2810f2&event_collection=flow&timeframe=this_14_days&target_property=volume&group_by=device&interval=daily&percentile=50", drawChartWeek);
+    }
+
+      var drawChartWeek = function(data) {
+      window.alldata = data;
+      var times = _.chain(data.result).pluck("timeframe").pluck("end").map(function(time){
+        return moment(time).format("MM/DD");
+      }).value();     
+
+      var series = _.chain(alldata.result).pluck("value").pluck("0").pluck("result").value();
+
+      $('#waterusage').highcharts({
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: 'Water Usage'
+        },
+        // subtitle: {
+        //     text: 'Source: WorldClimate.com'
+        // },
+        xAxis: {
+          categories: times
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Total usage (mL)'
+          }
+        },
+        tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} mL</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true
+        },
+        plotOptions: {
+          column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+          }
+        },
+        series: [{
+          name: 'Usage',
+          data: series
+        },
+        {
+                type: 'spline',
+                name: 'Average',
+                data: [200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200],
+                marker: {
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[3],
+                    fillColor: 'white'
+                }
+        }]
+      });
+    } // end of drawChart
     
     var drawChart = function(data) {
       window.alldata = data;
@@ -220,9 +301,9 @@
       });
     } // end of drawChart
 
-    $(function () {
-      //pullData();
-    });
+
+
+    
   </script>
 </body>    
 </html>
