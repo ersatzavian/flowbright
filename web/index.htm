@@ -67,14 +67,14 @@
       </div>
       <div class="total_donation">
         <p class="total_donation_title">My lifetime water contributions</p>
-        <p class="total_donation_amount">653 Gallons</p>
+        <p class="total_donation_amount"><span id="lifetimeContributions">653</span> Gallons</p>
         <div class="total_donation_people">
           <span class="icon-group"></span>
           <span class="icon-group"></span>
           <span class="icon-group"></span>
           <span class="icon-group"></span> 
         </div>
-        <div class="total_donate_people_count">Fresh water for 106 people</div>
+        <div class="total_donate_people_count">Fresh water for <span id="totalPeople">106</span> people</div>
         <div class="total_donation_overlay"></div>
         <img class="total_donation_hero" src="../img/donatedChildren.jpeg" />
       </div>
@@ -227,10 +227,18 @@
       });
     }
 
+  var lifetimeContributions = 653;
+  var totalPeople = 106;
 
         function sendDonation() {
-      alert("You donated " +  document.getElementById('projectedDonation').innerHTML + "\nGood Karma")
+    
+      lifetimeContributions = lifetimeContributions + 4930;
+      document.getElementById("lifetimeContributions").innerHTML = lifetimeContributions.toString();
+
+      totalPeople = totalPeople + 23;
+      document.getElementById("totalPeople").innerHTML = totalPeople.toString();
     }
+
 
   </script> 
 
