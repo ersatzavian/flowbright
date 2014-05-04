@@ -503,13 +503,48 @@ class Firebase {
     }    
 }
 
+const TWILIO_URL = "https://api.twilio.com/2010-04-01/Accounts/";
+const TWILIO_SID = "AC5235507dd66394cfffdd77fc86eb5b7c";
+const TWILIO_PWD = "c58520b78cc43818ce3c3d6611938867";
+const TWILIO_SRC = "14154297308";
+function send_sms(message, number) {
+    local data = { From = TWILIO_SRC, To = number, Body = message };
+    local auth = http.base64encode(TWILIO_SID + ":" + TWILIO_PWD);
+    local headers = {"Authorization": "Basic " + auth};
+    http.post(TWILIO_URL + TWILIO_SID + "/SMS/Messages.json", headers, http.urlencode(data)).sendasync(function(res) {
+        if (res.statuscode == 200 || res.statuscode == 201) {
+            server.log("Twilio SMS sent to: " + number);
+        } else {
+            server.log("Twilio error: " + res.statuscode + " => " + res.body);
+        }
+    })
+}
+
 // Sample instantiation
 const FIREBASENAME = "flickering-fire-322";
 const FIREBASESECRET = "n7thS3Z7UtmbZkaFJVUXWZtiiM7z2wOFNlv6337d";
 
 firebase <- Firebase(FIREBASENAME, FIREBASESECRET);
+water_running <- false;
 
 device.on("update", function(data) {
     server.log(format("%s at %d: %d mL",data.id, data.time, data.volume));
     firebase.write("/"+data.id+"/"+data.time, data.volume);
+    if (data.volume > 0) { water_running = true; }
+    else { water_running = false; }
+});
+
+http.onrequest(function(req, resp) {
+    resp.header("Access-Control-Allow-Origin", "*");
+    resp.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+    local path = req.path.tolower();    
+    if (path == "/water_running" || path == "/water_running/") {
+        server.log("got request for water state, resp = "+water_running);
+        resp.send(200, water_running);
+    } else if (path == "/send_txt" || path == "/send_txt/") {
+        local data = http.jsondecode(req);
+        send_sms(data.msg, data.to);
+    } else {
+        resp.send(404, "nothing here, sorry.");
+    }
 });
