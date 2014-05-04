@@ -30,10 +30,9 @@
       </div><!-- /.container -->
     </nav>
     <form>
-
   <select class="target">
-    <option value="option1" selected="selected">Weekly</option>
-    <option value="option2">Minutely</option>
+    <option value="option1" selected="selected">Minutely</option>
+    <option value="option2">Weekly</option>
   </select>
 </form>
 
@@ -78,7 +77,7 @@
   <script src="http://code.highcharts.com/highcharts.js"></script>
   
   <!-- Keen "Library" -->
-  <!-- <script type="text/javascript"> using hichart via keen api instead of keen io
+  <script type="text/javascript"> 
     var Keen=Keen||{configure:function(e){this._cf=e},addEvent:function(e,t,n,i){this._eq=this._eq||[],this._eq.push([e,t,n,i])},setGlobalProperties:function(e){this._gp=e},onChartsReady:function(e){this._ocrq=this._ocrq||[],this._ocrq.push(e)}};(function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://":"http://")+"dc8na2hxrj29i.cloudfront.net/code/keen-2.1.0-min.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
 
     // Configure the Keen object with your Project ID and (optional) access keys.
@@ -88,16 +87,19 @@
         readKey: "f7a829ecc9e237949b0b97245c828661ff0c9f46eaec35a7dc4cfd3b4ef42804f5fc1859ecad05bd7d72b6c3a2e4047ae39cba86b5d51c770be26b0a406cbb44650d20fd05fb7896293f015cec3af3ca2df8a507927bf4cfed9275eb89e8dee855cf45db75b221074bda2f737d2810f2"    // required for doing analysis
     });
   </script>
--->
+
   <!-- This script handles building weekly summaries with Keen and texting them to users with Twilio -->
   <script type="text/javascript"> 
+    $(function () {
+        pullData();
+    });
     $( ".target" ).change(function() {
       var selectedDropdown = $(this).val();
       console.log(selectedDropdown);
-      if(selectedDropdown == "option2"){
+      if(selectedDropdown == "option1"){
         pullData();
       }
-      else if(selectedDropdown == "option1"){
+      else if(selectedDropdown == "option2"){
         pullWeek();
       }
 
@@ -139,7 +141,7 @@
           textMsg += (month+"/"+day);
           textMsg += ": ("
           textMsg += Math.round(response.result[index].value);
-          textMsg += " mL)\n";
+          textMsg += " Gallon)\n";
         }
         console.log(textMsg);
         
@@ -221,12 +223,12 @@
         yAxis: {
           min: 0,
           title: {
-            text: 'Total usage (mL)'
+            text: 'Total usage (Gallon)'
           }
         },
         tooltip: {
           headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} mL</b></td></tr>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} Gallon</b></td></tr>',
           footerFormat: '</table>',
           shared: true,
           useHTML: true
@@ -278,12 +280,12 @@
         yAxis: {
           min: 0,
           title: {
-            text: 'Total usage (mL)'
+            text: 'Total usage (Gallon)'
           }
         },
         tooltip: {
           headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} mL</b></td></tr>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} Gallon</b></td></tr>',
           footerFormat: '</table>',
           shared: true,
           useHTML: true
