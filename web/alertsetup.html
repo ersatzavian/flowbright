@@ -1,0 +1,87 @@
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name='description' content=''>
+    <meta name='author' content=''>
+
+    <title>Set Up FlowBright Alerts</title>
+    <link href='https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css' rel='stylesheet'>
+    <link href="../css/style.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <nav id='top' class='navbar navbar-static-top navbar-inverse' role='navigation'>
+      <div class='container'>
+        <div class='navbar-header'>
+          <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-ex1-collapse'>
+            <span class='sr-only'>Toggle navigation</span>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
+          </button>
+          <a class='navbar-brand'>Flowbright</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class='collapse navbar-collapse navbar-ex1-collapse'>
+          <ul class='nav navbar-nav'>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container -->
+    </nav>
+    
+    <div class='container'>
+      <div class='row' style='margin-top: 20px'>
+        <div class='col-md-offset-2 col-md-8 well'>
+        <h2>Configure Alerts</h2>
+          <div class="col-md-6">
+            <label> <input id="sendemail" type="checkbox" style="padding-right:20px"> Send me weekly summary emails </label>
+            <div class="input-group"> 
+              <input type="text" class="form-control" placeholder="you@flowbright.com">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="sendEmail()">Test</button>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label> <input id="sendemail" type="checkbox" style="padding-right:20px"> Send me weekly summary texts </label>
+            <div class="input-group"> 
+              <input type="text" class="form-control" placeholder="(555)555-5555">
+              <span class="input-group-btn">
+               <button class="btn btn-default" type="button" onclick="sendText()">Test</button>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <h5> send a text to (555) 555-5555 to receive a weekly summary at any time </h5>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <footer>
+        <div class='row'>
+          <div class='col-lg-12'>
+            <p class='text-center'>Copyright &copy; Flowbright 2014 &middot; <a href='http://facebook.com/flowbright'>Facebook</a> &middot; <a href='http://twitter.com/flowbright'>Twitter</a></p>
+          </div>
+        </div>
+      </footer>
+      
+    </div><!-- /.container -->
+
+  <!-- javascript -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+  <script src='https://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js'></script>
+  <script type="text/javascript">
+
+    function sendEmail() {
+      
+    }
+
+    function sendText() {
+
+    }
+
+  </script>
+</body>    
+</html>
