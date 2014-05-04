@@ -30,10 +30,9 @@
       </div><!-- /.container -->
     </nav>
     <form>
-
   <select class="target">
-    <option value="option1" selected="selected">Weekly</option>
-    <option value="option2">Minutely</option>
+    <option value="option1" selected="selected">Minutely</option>
+    <option value="option2">Weekly</option>
   </select>
 </form>
 
@@ -121,9 +120,9 @@
         interval: "daily"
       });
 
-      usageSum.draw(document.getElementById("waterusage"), {
-        label: "Water Used (mL)"
-      });
+      //usageSum.draw(document.getElementById("waterusage"), {
+        //label: "Water Used (mL)"
+      //});
 
 
   var metricThisMonth = new Keen.Metric("flow", {
@@ -157,13 +156,16 @@
 
   <!-- This script handles building weekly summaries with Keen and texting them to users with Twilio -->
   <script type="text/javascript"> 
+    $(function () {
+        pullData();
+    });
     $( ".target" ).change(function() {
       var selectedDropdown = $(this).val();
       console.log(selectedDropdown);
-      if(selectedDropdown == "option2"){
+      if(selectedDropdown == "option1"){
         pullData();
       }
-      else if(selectedDropdown == "option1"){
+      else if(selectedDropdown == "option2"){
         pullWeek();
       }
 
@@ -301,12 +303,12 @@
         yAxis: {
           min: 0,
           title: {
-            text: 'Total usage (mL)'
+            text: 'Total usage (Gallon)'
           }
         },
         tooltip: {
           headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} mL</b></td></tr>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} Gallon</b></td></tr>',
           footerFormat: '</table>',
           shared: true,
           useHTML: true
@@ -358,12 +360,12 @@
         yAxis: {
           min: 0,
           title: {
-            text: 'Total usage (mL)'
+            text: 'Total usage (Gallon)'
           }
         },
         tooltip: {
           headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} mL</b></td></tr>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} Gallon</b></td></tr>',
           footerFormat: '</table>',
           shared: true,
           useHTML: true
