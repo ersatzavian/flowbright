@@ -2,6 +2,7 @@
 
 import sys
 import requests
+import message
 
 def send_overview_mail(subject, body, email):
   if ('MAILGUN_REST_URL' not in globals() or 'MAILGUN_API_KEY' not in globals()):
@@ -17,7 +18,7 @@ def send_overview_mail(subject, body, email):
 def main():
   if ('MAILGUN_TEST_MAIL' not in globals()):
     raise NameError('Test mail is not set.')
-  print send_overview_mail('Test Subject', 'Test Body', MAILGUN_TEST_MAIL);
+  print send_overview_mail('FlowBright: Your weekly water report', message.format_message(), MAILGUN_TEST_MAIL);
 
 if __name__ == '__main__':
   # Include mailgun settings in a settings.py file that will be included here.

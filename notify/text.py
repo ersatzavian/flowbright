@@ -2,6 +2,7 @@
 
 import sys
 from twilio.rest import TwilioRestClient
+import message
 
 def send_overview_message(body, number):
   ACCOUNT_SID = TWILIO_ACCOUNT_SID
@@ -19,7 +20,7 @@ def send_overview_message(body, number):
 def main():
   if ('TWILIO_ACCOUNT_SID' not in globals()):
     raise NameError('To Number is not set.')
-  print send_overview_message('Test Body', TWILIO_TO_NUMBER);
+  print send_overview_message(message.format_message(), TWILIO_TO_NUMBER);
 
 if __name__ == '__main__':
   # Include twilio settings in a settings.py file that will be included here.

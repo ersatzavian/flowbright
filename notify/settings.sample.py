@@ -15,3 +15,7 @@ MAILGUN_TEST_MAIL = ''
 # Get from mailgun
 MAILGUN_API_KEY = ""
 MAILGUN_REST_URL = ""
+
+# Get from keen
+KEEN_PROJECT_ID = ''
+KEEN_READ_KEY = ''
