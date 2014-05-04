@@ -1,6 +1,2 @@
 venv/
-<<<<<<< HEAD
 notify/settings.py
-=======
-.DS_Store
->>>>>>> 8e0841197263e5286dc78571bc5e3343a6624b90
