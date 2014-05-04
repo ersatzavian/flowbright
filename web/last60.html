@@ -10,7 +10,7 @@
 		<script type="text/javascript">    
 
         function pullData() {
-            $.getJSON("https://api.keen.io/3.0/projects/50ba759d897a2c45c2000000/queries/sum?api_key=f7a829ecc9e237949b0b97245c828661ff0c9f46eaec35a7dc4cfd3b4ef42804f5fc1859ecad05bd7d72b6c3a2e4047ae39cba86b5d51c770be26b0a406cbb44650d20fd05fb7896293f015cec3af3ca2df8a507927bf4cfed9275eb89e8dee855cf45db75b221074bda2f737d2810f2&event_collection=flow&timeframe=this_60_minutes&target_property=volume&group_by=device&interval=minutely&percentile=50", drawChart);
+            $.getJSON("https://api.keen.io/3.0/projects/50ba759d897a2c45c2000000/queries/sum?api_key=f7a829ecc9e237949b0b97245c828661ff0c9f46eaec35a7dc4cfd3b4ef42804f5fc1859ecad05bd7d72b6c3a2e4047ae39cba86b5d51c770be26b0a406cbb44650d20fd05fb7896293f015cec3af3ca2df8a507927bf4cfed9275eb89e8dee855cf45db75b221074bda2f737d2810f2&event_collection=flow&timeframe=this_14_days&target_property=volume&group_by=device&interval=daily&percentile=50", drawChart);
         }
         
 
@@ -22,7 +22,7 @@
                 .pluck("timeframe")
                 .pluck("end")
                 .map(function(time){
-                    return moment(time).format("h:mm");
+                    return moment(time).format("MM/DD");
                 })
                 .value();     
 
@@ -65,6 +65,17 @@
                 name: 'Usage',
                 data: series
     
+            },
+            {
+                type: 'spline',
+                name: 'Average',
+                data: [200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200],
+                marker: {
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[3],
+                    fillColor: 'white'
+                }
+
             }]
         });
 
