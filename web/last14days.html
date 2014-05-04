@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Water Usage for last 60 minutes</title>
+
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
+        <script type="text/javascript" src="http://momentjs.com/downloads/moment-with-langs.min.js"></script>
+		<script type="text/javascript">    
+
+        function pullData() {
+            $.getJSON("https://api.keen.io/3.0/projects/50ba759d897a2c45c2000000/queries/sum?api_key=f7a829ecc9e237949b0b97245c828661ff0c9f46eaec35a7dc4cfd3b4ef42804f5fc1859ecad05bd7d72b6c3a2e4047ae39cba86b5d51c770be26b0a406cbb44650d20fd05fb7896293f015cec3af3ca2df8a507927bf4cfed9275eb89e8dee855cf45db75b221074bda2f737d2810f2&event_collection=flow&timeframe=this_14_days&target_property=volume&group_by=device&interval=daily&percentile=50", drawChart);
+        }
+        
+
+        var drawChart = function(data){
+
+            window.alldata = data;
+
+            var times = _.chain(data.result)
+                .pluck("timeframe")
+                .pluck("end")
+                .map(function(time){
+                    return moment(time).format("MM/DD");
+                })
+                .value();     
+
+            var series = _.chain(alldata.result).pluck("value").pluck("0").pluck("result").value();
+
+            $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Water Usage'
+            },
+            // subtitle: {
+            //     text: 'Source: WorldClimate.com'
+            // },
+            xAxis: {
+                categories: times
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Total usage (mL)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} mL</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Usage',
+                data: series
+    
+            }]
+        });
+
+    }
+
+$(function () {
+        pullData();
+    });
+    
+
+		</script>
+	</head>
+	<body>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+	</body>
+</html>
