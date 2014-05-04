@@ -1,0 +1,66 @@
+html {
+  background: url('../img/bg.png');
+  height: 100%;
+}
+
+body {
+  font: 12px arial;
+  color: #333333;
+  background: url('../img/flowbright.png') no-repeat; 
+  background-position: center bottom;
+}
+
+.f-title {
+	text-align: center;
+	color: #aaa;
+	padding: 20px;
+}
+
+.f-explain {
+	margin-top: 15px;
+	font-family: 'Varela Round', sans-serif;
+	font-size: 26px;
+}
+
+.f-container {
+	text-align: center;
+}
+
+.page-fb-login {
+	text-align: right;
+	padding: 20px;
+}
+
+.image-container {
+	margin: 40px 0px 40px 0px;
+}
+
+.f-nav {
+
+}
+
+.f-content {
+	padding-bottom: 200px;
+}
+
+#spinner {
+	text-align: center;
+	margin-left: 50%;
+}
+
+/* Overrides to image-picker */
+
+ul.thumbnails.image_picker_selector li .thumbnail {
+	border-width: 2px;
+	border-color: #ddd;
+}
+
+.thumbnail {
+	margin: 0;
+}
+
+ul.thumbnails.image_picker_selector li .thumbnail.selected {
+	background: #f0fbff;
+	border-color: #87aaeb;
+}
+
