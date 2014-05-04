@@ -14,11 +14,11 @@ We use:
 * Twitter Bootstrap framework
 
 ## Contributors
-Tom Byrne
-Kelvin Law
-Joe Anderson
-Emily Lam
-Devaraj Rajagopalan
-Sushma Yadlapalli
-Rachel Thomas
-Filip Anderson
+* Tom Byrne
+* Kelvin Law
+* Joe Anderson
+* Emily Lam
+* Devaraj Rajagopalan
+* Sushma Yadlapalli
+* Rachel Thomas
+* Filip Anderson
