@@ -64,3 +64,67 @@ ul.thumbnails.image_picker_selector li .thumbnail.selected {
 	border-color: #87aaeb;
 }
 
+/* Donation blocks */
+.total_donation {
+	overflow: hidden;
+	height: 300px;
+	position: relative;
+	width: 700px;
+	margin: 0 auto;
+}
+
+.total_donation_title {
+	position: absolute;
+	top: 15px;
+	left: 30px;
+	font-weight: bold;
+	font-family: Helvetica;
+	font-size: 47px;
+	color: #fff;
+	width: 400px;
+	text-shadow: 0 1px 0 #000;
+}
+
+.total_donation_amount, .total_donation_people {
+	font-weight: bold;
+	font-family: Helvetica;
+	font-size: 38px;
+	width: 350px;
+	text-shadow: 0 1px 0 #000;
+	margin-top: 135px;
+	margin-left: 30px;
+	color: aquamarine;
+}
+
+.total_donation_people {
+	margin-top: 0px;
+}
+
+.total_donate_people_count {
+	font-family: Helvetica;
+	font-size: 18px;
+	color: #fff;
+	text-shadow: 0 1px 0 #000;
+	margin-left: 30px;
+	margin-top: 6px;
+}
+
+.total_donation_overlay {
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .5);
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+}
+
+.total_donation_hero {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -2;
+}
+
+
